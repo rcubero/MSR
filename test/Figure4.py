@@ -1,7 +1,7 @@
 '''
     This code is used to replot Figure 4 of the main text.
-    As this figure relies
-    '''
+    As this figure relies runs from multiple sessions, one needs to run the codes in Figure5.py for each recording session one has.
+'''
 # to make things py2 and py3 compatible
 from __future__ import print_function, division
 
@@ -16,10 +16,10 @@ from matplotlib import rc
 rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 rc('text', usetex=True)
 
-data_cellnames = np.loadtxt("/Users/rcubero/Dropbox/Peyrache_Data_NEVR3004/Results/data_cellnames",dtype=bytes,delimiter='\n').astype(str)
-data_names = np.loadtxt("/Users/rcubero/Dropbox/Peyrache_Data_NEVR3004/MouseFilenames",dtype=bytes,delimiter='\n').astype(str)
-data_color = np.loadtxt("/Users/rcubero/Dropbox/Peyrache_Data_NEVR3004/Results/data_color")
-data_marker = np.loadtxt("/Users/rcubero/Dropbox/Peyrache_Data_NEVR3004/Results/data_marker",dtype=bytes,delimiter='\n').astype(str)
+data_cellnames = np.loadtxt("Data_output/data_cellnames",dtype=bytes,delimiter='\n').astype(str)
+data_names = np.loadtxt("Data_output/MouseFilenames",dtype=bytes,delimiter='\n').astype(str)
+data_color = np.loadtxt("Data_output/data_color")
+data_marker = np.loadtxt("Data_output/data_marker",dtype=bytes,delimiter='\n').astype(str)
 
 relevance = [];
 information = [];
@@ -28,10 +28,10 @@ mean_firing_rate = [];
 mean_vector_length = [];
 selectivity = [];
 for data_name in data_names:
-    relevance_directory = "/Users/rcubero/Dropbox/Peyrache_Data_NEVR3004/Results/%s/%s-HD"%(data_name,data_name)
+    relevance_directory = "Data_output/%s/%s-HD"%(data_name,data_name)
     relevance += list(np.loadtxt('%s-relevance.d'%(relevance_directory)))
     
-    calculation_directory = "/Users/rcubero/Dropbox/Peyrache_Data_NEVR3004/Temporal_Relevance/Results/%s-HD"%(data_name)
+    calculation_directory = "Data_output/Results/%s-HD"%(data_name)
     information += list(np.loadtxt('%s-HD_information.d'%(calculation_directory)))
     randomized_information += list(np.loadtxt('%s-randomized_mean-HD_information.d'%(calculation_directory)))
     mean_vector_length += list(np.loadtxt('%s-mean_vector_length.d'%(calculation_directory)))

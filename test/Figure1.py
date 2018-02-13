@@ -21,6 +21,7 @@ rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 rc('text', usetex=True)
 
 # import external dictionaries
+os.chdir("../src")
 from preprocess import *
 from relevance import *
 
