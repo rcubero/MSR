@@ -30,6 +30,7 @@ def calculate_HofKS(mapping_ks):
     ks_counts = np.asarray(Counter(mapping_ks).most_common())
     positive_values = np.where(ks_counts[:,0]>0)[0]
     kq, mq = ks_counts[:,0][positive_values], ks_counts[:,1][positive_values]
+    # check that the normalization condition is satisfied
     assert np.sum(kq*mq)==np.sum(mapping_ks)
     M = float(np.sum(kq*mq))
     return -np.sum(((kq*mq)/M)*np.log2((kq*mq)/M))/np.log2(M), -np.sum(((kq*mq)/M)*np.log2(kq/M))/np.log2(M)
