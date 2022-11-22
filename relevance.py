@@ -49,7 +49,7 @@ def follow_curve(data):
 def parallelized_total_relevance(zipped_data):
     total_time, spikes = zipped_data
     N_max = np.round(np.log(total_time - (0.01*total_time))/np.log(10), 2);
-    N_parts = np.unique(np.logspace(0.4,N_max,100).astype("int"))
+    N_parts = np.unique(np.logspace(0.4,N_max,100).astype("int")) # has to be in log-space since the resolution increases exponentially as the number of time bins
     N_partitions = np.append(N_parts,[spikes.size])
     input_data = [(total_time, spikes, i) for i in N_partitions]
     pool = Pool()
@@ -57,5 +57,5 @@ def parallelized_total_relevance(zipped_data):
     pool.close(); pool.join() # not optimal step but is safe to do
     data = np.array(res.get())
     data = np.append(data,np.array([[0.0, 0.0], [0.0, 1.0]]),axis=0)
-    data = data[np.lexsort((data[:,0],data[:,1]))]
+    data = data[np.lexsort((data[:,0],data[:,1]))] # sort the points by increasing resolution
     return calculate_area(data)
