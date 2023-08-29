@@ -9,12 +9,9 @@ from __future__ import print_function, division
 # major packages needed
 import numpy as np
 import os
-import sys
 
 # some additional packages that are needed
-from scipy import io, signal
-from scipy.ndimage.filters import gaussian_filter1d, gaussian_filter
-from scipy.stats import pearsonr, spearmanr
+from scipy import io
 from multiprocessing import Pool
 from itertools import combinations
 
@@ -57,6 +54,4 @@ for pair_index in np.arange(len(pair_list)):
 results['relevance'] = unfiltered_relevance
 results['nspikes'] = N_spins
 
-#io.savemat('%s.mat'%("mEC_booleanfunction_NAND_1ms.d"), results)
-#io.savemat('%s.mat'%("mEC_booleanfunction_NOR_1ms.d"), results)
 io.savemat('%s.mat'%("mEC_singleneuron_AND_1ms"), results)

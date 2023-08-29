@@ -4,7 +4,6 @@
 
 from __future__ import division
 from multiprocessing import Pool
-from scipy import optimize, signal, linalg, spatial
 import numpy as np
 
 
