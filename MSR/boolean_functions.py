@@ -23,10 +23,10 @@ rc('font', **{'family': 'sans-serif', 'sans-serif': ['Helvetica']})
 rc('text', usetex=True)
 
 # import external dictionaries
-from preprocess import *
-from relevance import *
-from spatial_quantities import *
-from HD_quantities import *
+from MSR.navigation.preprocess import *
+from MSR.relevance import *
+from MSR.navigation.spatial_quantities import *
+from MSR.navigation.HD_quantities import *
 
 # Load spike train data
 filenames = [ fname.rstrip('\n') for fname in open(os.path.join('Flekken_Data', 'cell_filenames')) ]

@@ -9,7 +9,7 @@ from multiprocessing import Pool
 import numpy as np
 
 # these are functions needed to calculate histograms
-def iter_baskets_contiguous(items, maxbaskets=3, item_count=None):
+def _iter_baskets_contiguous(items, maxbaskets=3, item_count=None):
     '''
         generates balanced baskets from iterable, contiguous contents
         provide item_count if providing a iterator that doesn't support len()
@@ -26,7 +26,7 @@ def iter_baskets_contiguous(items, maxbaskets=3, item_count=None):
         yield [next(items) for _ in range(length)]
 
 # these are the functions that calculate the H[K] and the area under the curve
-def calculate_HofKS(mapping_ks):
+def _calculate_HofKS(mapping_ks):
     ks_counts = np.asarray(Counter(mapping_ks).most_common())
     positive_values = np.where(ks_counts[:,0]>0)[0]
     kq, mq = ks_counts[:,0][positive_values], ks_counts[:,1][positive_values]
@@ -34,16 +34,16 @@ def calculate_HofKS(mapping_ks):
     M = float(np.sum(kq*mq))
     return -np.sum(((kq*mq)/M)*np.log2((kq*mq)/M))/np.log2(M), -np.sum(((kq*mq)/M)*np.log2(kq/M))/np.log2(M)
 
-def calculate_area(data_points):
+def _calculate_area(data_points):
     # calculates integral using the trapezoid rule
     return np.sum(0.5*(np.abs(data_points[:,0][:-1]+data_points[:,0][1:]))*(np.abs(data_points[:,1][:-1]-data_points[:,1][1:])))
 
 # these are the parallelized version of calculating total relevances
 def follow_curve(data):
     total_time, spikes, partitions = data
-    time_bins = np.asarray(list(iter_baskets_contiguous(np.arange(total_time), partitions)))
+    time_bins = np.asarray(list(_iter_baskets_contiguous(np.arange(total_time), partitions)))
     ks_map = np.array([np.sum(spikes[time_bins[i]]) for i in np.arange(len(time_bins))])
-    return calculate_HofKS(ks_map)
+    return _calculate_HofKS(ks_map)
 
 def parallelized_total_relevance(zipped_data):
     total_time, spikes = zipped_data
@@ -57,4 +57,6 @@ def parallelized_total_relevance(zipped_data):
     data = np.array(res.get())
     data = np.append(data,np.array([[0.0, 0.0], [0.0, 1.0]]),axis=0)
     data = data[np.lexsort((data[:,0],data[:,1]))]
-    return calculate_area(data)
+    return _calculate_area(data)
+
+
